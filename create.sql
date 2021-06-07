@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS UserContact (	
+	email CHAR(50) PRIMARY KEY,
+	phone CHAR(20)
+);
+
+CREATE TABLE IF NOT EXISTS UserInfo (
+	id INTEGER PRIMARY KEY,
+	email VARCHAR(50) NOT NULL UNIQUE,
+	name VARCHAR(50),
+	FOREIGN KEY(email)
+		REFERENCES UserContact
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Follows (
+	uid INTEGER,
+	followed_id INTEGER,
+	follower_id INTEGER,
+	PRIMARY KEY(uid, followed_id, follower_id),
+	FOREIGN KEY(uid)
+		REFERENCES UserInfo
+		ON DELETE SET NULL
+);
