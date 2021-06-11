@@ -23,6 +23,12 @@ This should create an entry in the `Pipfile` and automatically update the `Pipfi
 
 _Note: Please push these files whenever any new dependencies are added in order for other developers to have the latest required dependencies installed_
 
+To reset the python virtual environment, run the following command in a bash shell:
+
+```
+./reset-pipenv.sh
+```
+
 ## Running the application
 
 To launch the application, from the root of the project, run:
