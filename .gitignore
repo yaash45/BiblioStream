@@ -160,4 +160,7 @@ vignettes/*.pdf
 # Ignore all local history of files
 .history
 
+### Database config
+dbconfig.yaml
+
 # End of https://www.gitignore.io/api/r,python,visualstudiocode
