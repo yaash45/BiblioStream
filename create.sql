@@ -146,3 +146,37 @@ CREATE TABLE IF NOT EXISTS ViewableIn (
 		REFERENCES VideoMedia
 		ON DELETE SET NULL
 );
+
+CREATE TABLE IF NOT EXISTS Contains (
+	user_watchlist_name VARCHAR(50),
+	videomedia_name VARCHAR(50)
+	streamingService_name CHAR(50),
+	streamingService_id INTEGER,
+	PRIMARY KEY(user_watchlist_name),
+	PRIMARY KEY(videomedia_name),
+	PRIMARY KEY(streamingService_name),
+	PRIMARY KEY(streamingService_id),
+	FOREIGN KEY(user_watchlist_name)
+		REFERENCES User
+		ON DELETE SET NULL
+	FOREIGN KEY(videomedia_name)
+		REFERENCES VideoMedia
+		ON DELETE SET NULL
+	FOREIGN KEY(streamingService_name, streamingService_id)
+		REFERENCES StreamingServices
+		ON DELETE SET NULL 
+	);
+
+CREATE TABLE BelongsTo (
+	genre_name CHAR(50),
+	videomedia_name CHAR(50),
+	PRIMARY KEY(genre_name),
+	PRIMARY KEY(genre_name),
+	FOREIGN KEY(Genre_Name)
+	REFERENCES Genre
+		ON DELETE SET NULL
+	FOREIGN KEY(Genre_Name)
+	REFERENCES VideoMedia
+		ON DELETE SET NULL
+
+)
