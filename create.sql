@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS UserContact (	
-	email CHAR(50) PRIMARY KEY,
-	phone CHAR(20)
+	email VARCHAR(50),
+	phone CHAR(20),
+	PRIMARY KEY (email)
 );
 
 CREATE TABLE IF NOT EXISTS UserInfo (
@@ -8,7 +9,7 @@ CREATE TABLE IF NOT EXISTS UserInfo (
 	email VARCHAR(50) NOT NULL UNIQUE,
 	name VARCHAR(50),
 	FOREIGN KEY(email)
-		REFERENCES UserContact
+		REFERENCES UserContact (email)
 		ON DELETE CASCADE
 );
 
@@ -18,7 +19,7 @@ CREATE TABLE IF NOT EXISTS Follows (
 	follower_id INTEGER,
 	PRIMARY KEY(uid, followed_id, follower_id),
 	FOREIGN KEY(uid)
-		REFERENCES UserInfo
+		REFERENCES UserInfo (id)
 		ON DELETE SET NULL
 );
 
@@ -33,7 +34,7 @@ CREATE TABLE IF NOT EXISTS Series (
 	episodes INTEGER,
 	PRIMARY KEY(name),
 	FOREIGN KEY(name)
-		REFERENCES VideoMedia
+		REFERENCES VideoMedia (name)
 		ON DELETE SET NULL
 );
 
@@ -42,7 +43,7 @@ CREATE TABLE IF NOT EXISTS Movies (
 	length INTEGER,
 	PRIMARY KEY(name),
 	FOREIGN KEY(name)
-		REFERENCES VideoMedia
+		REFERENCES VideoMedia (name)
 		ON DELETE SET NULL
 );
 
@@ -79,7 +80,7 @@ CREATE TABLE IF NOT EXISTS Ratings (
 
 CREATE TABLE IF NOT EXISTS StreamingServices (
 	name VARCHAR(50),
-	id INTEGER UNIQUE,
+	id INTEGER UNIQUE NOT NULL,
 	PRIMARY KEY(id)
 );
 
@@ -93,26 +94,26 @@ CREATE TABLE IF NOT EXISTS SubscribesTo (
 	streaming_id INTEGER,
 	streaming_name VARCHAR(50),
 	user_id INTEGER,
-	tier_name CHAR(50),
+	tier_name VARCHAR(50),
 	PRIMARY KEY(streaming_id, streaming_name,user_id),
 	FOREIGN KEY(streaming_id,streaming_name)
-		REFERENCES StreamingServices
+		REFERENCES StreamingServices (id)
 		ON DELETE SET NULL,
 	FOREIGN KEY(user_id)
-		REFERENCES UserInfo(id)
+		REFERENCES UserInfo (id)
 		ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS AccessibleIn (
 	streamingService_id INTEGER,
-	streamingService_name CHAR(50),
+	streamingService_name VARCHAR(50),
 	country_id INTEGER,
 	PRIMARY KEY(streamingService_id, streamingService_name,country_id),
 	FOREIGN KEY(streamingService_id,streamingService_name)
-		REFERENCES StreamingServices
+		REFERENCES StreamingServices (id)
 		ON DELETE SET NULL,
 	FOREIGN KEY(country_id)
-		REFERENCES Country
+		REFERENCES Country (id)
 		ON DELETE SET NULL
 );
 
@@ -127,10 +128,10 @@ CREATE TABLE IF NOT EXISTS Receives (
 	PRIMARY KEY(videoMedia_name),
 	PRIMARY KEY(certifications_name),
 	FOREIGN KEY(videoMedia_name)
-		REFERENCES VideoMedia
+		REFERENCES VideoMedia (name)
 		ON DELETE SET NULL,
 	FOREIGN KEY(certifications_name)
-		REFERENCES Certifications
+		REFERENCES Certifications (name)
 		ON DELETE SET NULL
 );
 
@@ -140,90 +141,86 @@ CREATE TABLE IF NOT EXISTS ViewableIn (
 	PRIMARY KEY(country_id),
 	PRIMARY KEY(videomedia_name),
 	FOREIGN KEY(country_id)
-		REFERENCES Country
+		REFERENCES Country (id)
 		ON DELETE SET NULL,
 	FOREIGN KEY(videomedia_name)
-		REFERENCES VideoMedia
+		REFERENCES VideoMedia (name)
 		ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS Contains (
 	user_watchlist_name VARCHAR(50),
-	videomedia_name VARCHAR(50)
-	streamingService_name CHAR(50),
+	videomedia_name VARCHAR(50),
+	streamingService_name VARCHAR(50),
 	streamingService_id INTEGER,
 	PRIMARY KEY(user_watchlist_name),
 	PRIMARY KEY(videomedia_name),
 	PRIMARY KEY(streamingService_name),
 	PRIMARY KEY(streamingService_id),
 	FOREIGN KEY(user_watchlist_name)
-		REFERENCES User
-		ON DELETE SET NULL
+		REFERENCES UserInfo (id)
+		ON DELETE SET NULL,
 	FOREIGN KEY(videomedia_name)
-		REFERENCES VideoMedia
-		ON DELETE SET NULL
+		REFERENCES VideoMedia (name)
+		ON DELETE SET NULL,
 	FOREIGN KEY(streamingService_name, streamingService_id)
-		REFERENCES StreamingServices
+		REFERENCES StreamingServices (id)
 		ON DELETE SET NULL 
 	);
 
-CREATE TABLE BelongsTo (
-	genre_name CHAR(50),
-	videomedia_name CHAR(50),
+CREATE TABLE IF NOT EXISTS BelongsTo (
+	genre_name VARCHAR(50),
+	videomedia_name VARCHAR(50),
 	PRIMARY KEY(genre_name),
-	PRIMARY KEY(genre_name),
-	FOREIGN KEY(Genre_Name)
-	REFERENCES Genre
-		ON DELETE SET NULL
-	FOREIGN KEY(Genre_Name)
-	REFERENCES VideoMedia
+	FOREIGN KEY(genre_Name)
+		REFERENCES Genre (name)
+		ON DELETE SET NULL,
+	FOREIGN KEY(videomedia_name)
+		REFERENCES VideoMedia (name)
 		ON DELETE SET NULL
 
 );
 
-CREATE TABLE Has (
-ratings_id INTEGER,
-videomedia_name CHAR(50),
-PRIMARY KEY(ratings_id),
-PRIMARY KEY(videomedia_name),
-FOREIGN KEY(ratings_id)
-	REFERENCES Ratings
-	ON DELETE SET NULL
-FOREIGN KEY(videomedia_name)
-	REFERENCES VideoMedia
-	ON DELETE SET NULL
-
+CREATE TABLE IF NOT EXISTS Has (
+	ratings_id INTEGER,
+	videomedia_name VARCHAR(50),
+	PRIMARY KEY(ratings_id),
+	PRIMARY KEY(videomedia_name),
+	FOREIGN KEY(ratings_id)
+		REFERENCES Ratings (id)
+		ON DELETE SET NULL,
+	FOREIGN KEY(videomedia_name)
+		REFERENCES VideoMedia (name)
+		ON DELETE SET NULL
 );
 
-CREATE TABLE Genre (
-	name CHAR(50),
+CREATE TABLE IF NOT EXISTS Genre (
+	name VARCHAR(50),
 	PRIMARY KEY(name)
 );
 
-CREATE TABLE ParticipatedIn-Type(
+CREATE TABLE IF NOT EXISTS ParticipatedInType (
 	MoviePeopleId INTEGER,
-	VideoMediaName CHAR(50),
-	Type CHAR(50),
-	PRIMARY_KEY(MoviePeopleId, VideoMediaName)
-	FOREGIN_KEY(MoviePeopleId)
-		REFERENCES MoviePeople
+	VideoMediaName VARCHAR(50),
+	Type VARCHAR(50),
+	PRIMARY KEY(MoviePeopleId, VideoMediaName),
+	FOREGIN KEY(MoviePeopleId)
+		REFERENCES MoviePeople (id)
 		ON DELETE SET NULL,
-	FOREIGN_KEY(VideoMediaName)
-		REFERENCES VideoMedia
-		ON DELETE SETNULL,
+	FOREIGN KEY(VideoMediaName)
+		REFERENCES VideoMedia (name)
+		ON DELETE SET NULL
+);
 
-)
-
-CREATE TABLE ParticipatedIn-Role(
+CREATE TABLE IF NOT EXISTS ParticipatedInRole (
 	MoviePeopleId INTEGER,
-	VideoMediaName CHAR(50),
-	Role CHAR(50),
-	PRIMARY_KEY(MoviePeopleId, VideoMediaName)
-	FOREGIN_KEY(MoviePeopleId)
-		REFERENCES MoviePeople
+	VideoMediaName VARCHAR(50),
+	Role VARCHAR(50),
+	PRIMARY KEY(MoviePeopleId, VideoMediaName),
+	FOREGIN KEY(MoviePeopleId)
+		REFERENCES MoviePeople (id)
 		ON DELETE SET NULL,
-	FOREIGN_KEY(VideoMediaName)
-		REFERENCES VideoMedia
-		ON DELETE SET NULL,
-
-)
+	FOREIGN KEY(VideoMediaName)
+		REFERENCES VideoMedia (name)
+		ON DELETE SET NULL
+);
