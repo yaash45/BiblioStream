@@ -179,4 +179,51 @@ CREATE TABLE BelongsTo (
 	REFERENCES VideoMedia
 		ON DELETE SET NULL
 
+);
+
+CREATE TABLE Has (
+ratings_id INTEGER,
+videomedia_name CHAR(50),
+PRIMARY KEY(ratings_id),
+PRIMARY KEY(videomedia_name),
+FOREIGN KEY(ratings_id)
+	REFERENCES Ratings
+	ON DELETE SET NULL
+FOREIGN KEY(videomedia_name)
+	REFERENCES VideoMedia
+	ON DELETE SET NULL
+
+);
+
+CREATE TABLE Genre (
+name CHAR(50),
+PRIMARY KEY(name)
+);
+
+CREATE TABLE ParticipatedIn-Type(
+MoviePeopleId INTEGER,
+VideoMediaName CHAR(50),
+Type CHAR(50),
+PRIMARY_KEY(MoviePeopleId, VideoMediaName)
+FOREGIN_KEY(MoviePeopleId)
+	REFERENCES MoviePeople
+	ON DELETE SET NULL,
+FOREIGN_KEY(VideoMediaName)
+	REFERENCES VideoMedia
+	ON DELETE SETNULL,
+
+)
+
+CREATE TABLE ParticipatedIn-Role(
+	MoviePeopleId INTEGER,
+	VideoMediaName CHAR(50),
+	Role CHAR(50),
+	PRIMARY_KEY(MoviePeopleId, VideoMediaName)
+	FOREGIN_KEY(MoviePeopleId)
+		REFERENCES MoviePeople
+		ON DELETE SET NULL,
+	FOREIGN_KEY(VideoMediaName)
+		REFERENCES VideoMedia
+		ON DELETE SET NULL,
+
 )
