@@ -196,21 +196,21 @@ FOREIGN KEY(videomedia_name)
 );
 
 CREATE TABLE Genre (
-name CHAR(50),
-PRIMARY KEY(name)
+	name CHAR(50),
+	PRIMARY KEY(name)
 );
 
 CREATE TABLE ParticipatedIn-Type(
-MoviePeopleId INTEGER,
-VideoMediaName CHAR(50),
-Type CHAR(50),
-PRIMARY_KEY(MoviePeopleId, VideoMediaName)
-FOREGIN_KEY(MoviePeopleId)
-	REFERENCES MoviePeople
-	ON DELETE SET NULL,
-FOREIGN_KEY(VideoMediaName)
-	REFERENCES VideoMedia
-	ON DELETE SETNULL,
+	MoviePeopleId INTEGER,
+	VideoMediaName CHAR(50),
+	Type CHAR(50),
+	PRIMARY_KEY(MoviePeopleId, VideoMediaName)
+	FOREGIN_KEY(MoviePeopleId)
+		REFERENCES MoviePeople
+		ON DELETE SET NULL,
+	FOREIGN_KEY(VideoMediaName)
+		REFERENCES VideoMedia
+		ON DELETE SETNULL,
 
 )
 
