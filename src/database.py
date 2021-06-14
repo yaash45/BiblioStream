@@ -85,7 +85,19 @@ class Database:
             cursor.close()
             return result
         except (Exception, Error) as error:
-            print("Could not query db. Error =", error)
+            print("Could not insert into db. Error =", error)
+
+    def delete_from_db(self, query_string: str) -> None:
+        """
+        Deletes row from db based on provided query_string
+        """
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute(query_string)
+            self.connection.commit()
+            cursor.close()
+        except (Exception, Error) as error:
+            print("Could not delete from db. Error =", error)
 
     def close_db_connection(self) -> None:
         """
