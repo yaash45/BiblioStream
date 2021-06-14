@@ -72,6 +72,21 @@ class Database:
         except (Exception, Error) as error:
             print("Could not query db. Error =", error)
 
+    def insert_into_db(self, query_string: str) -> str:
+        """
+        Inserts provided query_string as a query on the database
+        and returns a value specified in query.
+        """
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute(query_string)
+            result = cursor.fetchone()[0]
+            self.connection.commit()
+            cursor.close()
+            return result
+        except (Exception, Error) as error:
+            print("Could not query db. Error =", error)
+
     def close_db_connection(self) -> None:
         """
         Closes connection to the database.

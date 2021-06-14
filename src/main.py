@@ -1,4 +1,5 @@
 import argparse
+from bibliostream import BiblioStream
 from database import Database
 
 
@@ -15,17 +16,9 @@ def main() -> None:
     if args.DatabaseConfigPath != None:
         # Create an instance of the Database
         db = Database(args.DatabaseConfigPath)
-
-        # Connect to the database
-        db.connect_to_db()
-
-        # Test query. TODO Remove later
-        print("Querying all countries from DB as a test")
-        result = db.query_db("SELECT * FROM Country")
-        print("Result:", result)
-
-        # Close connection to database
-        db.close_db_connection()
+        bs = BiblioStream(db)
+        print(bs.insert_user("Yaash", "abc@ubc.ca", "1234567890"))
+        bs.end_session()
 
 
 if __name__ == "__main__":
