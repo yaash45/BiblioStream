@@ -79,6 +79,7 @@ class BiblioStream:
 
         return f"Inserted service with id = {streaming_id} and name = {streaming_name}"
 
+
     # Subscribes to
     def get_subscribes_to(self, user_id) -> str:
         """
@@ -128,6 +129,21 @@ class BiblioStream:
         query += f" FROM Series"
 
         return self.db.query_db(query)
+
+    # Genre
+    def insert_genre(self, genre_name) -> str:
+        """
+        This method inserts a genre into the table
+        """
+
+        cert_insert = self.db.insert_into_db(
+            f"INSERT INTO Genre(name) \
+            VALUES ('{genre_name}') RETURNING name"
+        )
+
+        return f"Inserted genre with name = {cert_insert}"
+    
+
 
     def end_session(self) -> None:
         """
