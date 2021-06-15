@@ -99,6 +99,18 @@ class Database:
         except (Exception, Error) as error:
             print("Could not delete from db. Error =", error)
 
+    def update_in_db(self, query_string: str) -> None:
+        """
+        Updates row in db based on provided query_string
+        """
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute(query_string)
+            self.connection.commit()
+            cursor.close()
+        except (Exception, Error) as error:
+            print("Could not update in db. Error =", error)
+
     def close_db_connection(self) -> None:
         """
         Closes connection to the database.

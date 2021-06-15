@@ -36,7 +36,7 @@ class BiblioStream:
 
         return f"Inserted user with id = {user_id} and email = {user_email}"
 
-    def delete_user(self, email) -> None:
+    def delete_user(self, email) -> str:
         """
         This method performs a cascade delete of a user from
         the UserInfo and UserContact tables.
@@ -44,6 +44,17 @@ class BiblioStream:
 
         self.db.delete_from_db(f"DELETE FROM UserContact WHERE email='{email}'")
         return f"Deleted user with email = {email} from db"
+
+    def update_user_phone(self, email, phone) -> str:
+        """
+        This method updates a user's phone number for a given email
+        """
+        query = f" UPDATE UserContact \
+                SET phone = '{phone}' \
+                WHERE email = '{email}'"
+
+        self.db.update_in_db(query)
+        return f"Updated user with email = {email} to have phone number {phone}"
 
     # STREAMING SERVICE
 
