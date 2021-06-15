@@ -105,6 +105,30 @@ class BiblioStream:
 
     # RATINGS
 
+    # SERIES
+
+    def project_series(self, seasons=True, episodes=True) -> list:
+        """
+        This method projects selective rows from the Series Table.
+        """
+        if seasons == False and episodes == False:
+            raise (
+                Exception(
+                    "Please select at least one of the seasons and episodes to be true"
+                )
+            )
+        query = "SELECT DISTINCT name"
+
+        if seasons:
+            query += ", seasons"
+
+        if episodes:
+            query += ", episodes"
+
+        query += f" FROM Series"
+
+        return self.db.query_db(query)
+
     def end_session(self) -> None:
         """
         This method is called to end the connection to the database.
