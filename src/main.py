@@ -1,6 +1,15 @@
 import argparse
+from flask import Flask, render_template
 from bibliostream import BiblioStream
 from database import Database
+
+app = Flask(__name__)
+
+
+@app.route("/")
+def index() -> str:
+    message = "This message is from the python app"
+    return render_template("index.html", message=message)
 
 
 def main() -> None:
@@ -22,4 +31,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    app.run(host="localhost", port=8080, debug=True)
