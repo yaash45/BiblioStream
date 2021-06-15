@@ -40,8 +40,18 @@ class BiblioStream:
         This method performs a cascade delete of a user from
         the UserInfo and UserContact tables.
         """
+        
         self.db.delete_from_db(f"DELETE FROM UserContact WHERE email='{email}'")
         return f"Deleted user with email = {email} from db"
+    
+    def get_subscribes_to(self, user_id) -> str:
+        """
+        This method returns a list of subscription services which the user is subscribed to 
+        """
+
+        result = self.db.query_db(f"SELECT streaming_name FROM SubscribesTo WHERE user_id='{user_id}'")
+        return result 
+        
 
     def end_session(self) -> None:
         """
