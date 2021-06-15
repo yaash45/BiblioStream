@@ -1,5 +1,5 @@
 import argparse
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 from bibliostream import BiblioStream
 from database import Database
 
@@ -8,8 +8,18 @@ app = Flask(__name__)
 
 @app.route("/")
 def index() -> str:
-    message = "This message is from the python app"
-    return render_template("index.html", message=message)
+    return render_template("index.html")
+
+
+@app.route("/insert_user", methods=["POST"])
+def insert_user():
+    user_name = request.form.get("username")
+    user_email = request.form.get("email")
+    user_phone = request.form.get("phone")
+
+    print(f"name = {user_name}, email = {user_email}, phone = {user_phone}")
+
+    return redirect("/")
 
 
 def main() -> None:

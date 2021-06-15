@@ -1,0 +1,83 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.main_container {
+  font-family: "Roboto", sans-serif;
+  height: 100%;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: #107e7d;
+  color: white;
+  height: 6%;
+}
+
+.title {
+  font-size: 5vh;
+  font-family: "Mate SC", serif;
+}
+
+.menu {
+  font-size: 2.5vh;
+}
+
+.menu ul {
+  display: flex;
+  flex-direction: row;
+}
+
+.menu ul > li {
+  list-style-type: none;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.content {
+  padding: 10px;
+  background-color: #f6d0b1;
+  height: 94%;
+}
+
+.header {
+  font-family: "Mate SC", serif;
+  font-size: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form .header {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.form form {
+  padding-left: 15px;
+  font-size: 15px;
+}
+
+.form form input {
+  margin: 5px;
+  padding: 5px;
+}
+
+.form form button {
+  padding: 5px;
+}

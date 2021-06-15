@@ -4,9 +4,53 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles/mainpage.css') }}"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mate+SC&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <title>BiblioStream</title>
   </head>
   <body>
-    <p>{{message}}</p>
+    <div class="main_container">
+      <div class="navbar">
+        <div class="title">BiblioStream</div>
+        <div class="menu">
+          <ul>
+            <li>Insert</li>
+            <li>Delete</li>
+            <li>Update</li>
+            <li>Select</li>
+            <li>Project</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content">
+        <div class="form" class="insert_user">
+          <span class="header">Insert User:</span>
+          <form action="{{url_for('insert_user')}}" method="POST">
+            Username:
+            <input type="text" name="username" placeholder="Enter your name" />
+            <br />
+            Email:
+            <input type="text" name="email" placeholder="Enter your email" />
+            <br />
+            Phone:
+            <input
+              type="text"
+              name="phone"
+              placeholder="Enter your phone no."
+            />
+            <br />
+            <button>Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
