@@ -163,7 +163,35 @@ class BiblioStream:
         return f"Inserted genre with name = {cert_insert}"
 
 
-    
+    # Receives
+    def insert_receives(self, videomedia_name, certifications_name) -> str:
+        """
+        This method inserts into the receives table where x video media receives y certificate
+        """
+
+        receives_insert = self.db.insert_into_db(
+            f"INSERT INTO Receives \
+                VALUES ('SELECT name FROM VideoMedia WHERE name = {videomedia_name}', 'SELECT name FROM Certifications WHERE name = {certifications_name}') \
+                    RETURNING videomedia_name, certifications_name "
+        )
+        return f"Inserting {receives_insert[1]} into {receives_insert[0]}"
+
+    # Aggregation
+    def max_certifications(self):
+        """
+        This method returns the videomedia with the most certifications
+        (AGGREGATE) criteria (not tested yet) (need to populate respective tables)
+        """
+        max_certs = self.db.query_db(
+            f"Select videomedia_name, max(certCount) FROM  \
+            (SELECT videomedia_name Count(*) as certCount \
+             from Certifications \
+            GROUP BY videomedia_name)"
+        
+        )
+        return max_certs[0]
+        
+
 
 
     def end_session(self) -> None:
