@@ -133,7 +133,7 @@ class BiblioStream:
     def max_certifications(self):
         """
         This method returns the videomedia with the most certifications
-        (AGGREGATE) criteria (not tested yet) (need to populate respective tables)
+        (Nested AGGREGATE) criteria (not tested yet) (need to populate respective tables)
         """
 
         max_certs = self.db.query_db(
@@ -210,7 +210,7 @@ class BiblioStream:
                     RETURNING videomedia_name, certifications_name "
         )
         return f"Inserting {receives_insert[1]} into {receives_insert[0]}"
-  
+
 
 
     def end_session(self) -> None:
