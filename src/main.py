@@ -40,5 +40,19 @@ def insert_user():
         return "Failed operation"
 
 
-app.run(host="localhost", port=8080, debug=True)
-bs.end_session()
+@app.route("/delete_user", methods=["POST"])
+def delete_user():
+    user_email = request.form.get("delete_email")
+
+    result = bs.delete_user(user_email)
+
+    if result != None:
+        return redirect("/")
+    else:
+        return "Failed operation"
+
+
+try:
+    app.run(host="localhost", port=8080, debug=True)
+finally:
+    bs.end_session()
