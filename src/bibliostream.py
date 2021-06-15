@@ -91,6 +91,15 @@ class BiblioStream:
         )
         return result
 
+    def get_subcribes_to_count(self, user_id) -> int:
+        """
+        This method returns the number of subscription servies to which the user is subscribed to 
+        """
+        result = self.db.query_db(
+            f"SELECT Count(*) FROM SubscribesTO WHERE user_id='{user_id}'")
+        return int(result[0][0])
+
+
     # Certifications
     def insert_cert(self, cert_name) -> str:
         """
@@ -142,6 +151,8 @@ class BiblioStream:
         )
 
         return f"Inserted genre with name = {cert_insert}"
+
+
     
 
 
