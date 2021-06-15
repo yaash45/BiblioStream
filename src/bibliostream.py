@@ -79,6 +79,19 @@ class BiblioStream:
         result = self.db.query_db(f"SELECT streaming_name FROM SubscribesTo WHERE user_id='{user_id}'")
         return result
 
+    # Certifications
+    def insert_cert(self, cert_name) -> str:
+        """
+        This method inserts a streaming service into the streaming service table.
+        """
+
+        cert_insert = self.db.insert_into_db(
+            f"INSERT INTO Certifications(name, id) \
+            VALUES ('{cert_name}') RETURNING name"
+        )
+
+        return f"Inserted cert with name = {cert_insert}"
+
     # RATINGS
 
     
