@@ -79,6 +79,16 @@ class BiblioStream:
 
         return f"Inserted service with id = {streaming_id} and name = {streaming_name}"
 
+    def all_streaming_service(self) -> str:
+        """
+        This method returns all of the streaming services available within the website
+
+        (Projection criteria)
+        """     
+        string_names = self.db.query_db("SELECT id, name FROM StreamingServices")
+
+        return string_names
+
 
     # Subscribes to
     def get_subscribes_to(self, user_id) -> str:
