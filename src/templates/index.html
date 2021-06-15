@@ -24,7 +24,7 @@
           <ul>
             <li><a href="#insert">Insert</a></li>
             <li><a href="#delete">Delete</a></li>
-            <li>Update</li>
+            <li><a href="#update">Update</a></li>
             <li>Select</li>
             <li>Project</li>
           </ul>
@@ -61,6 +61,26 @@
             />
             <br />
             <button>Delete</button>
+          </form>
+        </div>
+        <div class="form" class="update_user_phone">
+          <span class="header"><a id="update">Update user phone:</a></span>
+          <form action="{{url_for('update_user_phone')}}" method="POST">
+            Email:
+            <input
+              type="text"
+              name="update_email"
+              placeholder="Enter your email"
+            />
+            <br />
+            Phone:
+            <input
+              type="text"
+              name="update_phone"
+              placeholder="Enter your phone no."
+            />
+            <br />
+            <button>Update</button>
           </form>
         </div>
       </div>

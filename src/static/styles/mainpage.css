@@ -66,10 +66,14 @@ a {
 }
 
 .form {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
+  border-style: solid;
+  border-color: #107e7d;
+  border-width: 2px;
 }
 
 .form .header {

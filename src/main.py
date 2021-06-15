@@ -52,6 +52,19 @@ def delete_user():
         return "Failed operation"
 
 
+@app.route("/update_user_phone", methods=["POST"])
+def update_user_phone():
+    user_email = request.form.get("update_email")
+    user_phone = request.form.get("update_phone")
+
+    result = bs.update_user_phone(user_email, user_phone)
+
+    if result != None:
+        return redirect("/")
+    else:
+        return "Failed operation"
+
+
 try:
     app.run(host="localhost", port=8080, debug=True)
 finally:
