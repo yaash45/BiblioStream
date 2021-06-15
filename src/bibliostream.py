@@ -8,7 +8,7 @@ class BiblioStream:
         print(
             "Please don't forget to call 'BiblioStream().end_session() after finishing your work'"
         )
-
+    #USER SECTION
     def get_user_count(self) -> int:
         """
         This method returns the total number of users present in the database.
@@ -44,13 +44,44 @@ class BiblioStream:
         self.db.delete_from_db(f"DELETE FROM UserContact WHERE email='{email}'")
         return f"Deleted user with email = {email} from db"
     
+    # STREAMING SERVICE
+
+    def get_stream_services_count(self) -> int:
+        """
+        This method returns the total number of streamingservices present in the database.
+        """
+        result = self.db.query_db("SELECT Count(*) FROM StreamingServices")
+        # need to extract count value from list of tuple returned
+        return int(result[0][0])
+    
+    def insert_streaming_service(self, streaming_name) -> str:
+        """
+        This method inserts a streaming service into the streaming service table.
+        """
+        streaming_count = self.get_stream_services_count
+
+        streaming_insert = self.db.insert_into_db(
+            f"INSERT INTO StreamingServices(name, id) \
+            VALUES ('{streaming_name}', '{streaming_count}') RETURNING email"
+        )
+
+        return f"Inserted user with id = {streaming_count} and email = {streaming_name}"
+
+
+
+
+    # Subscribes to 
     def get_subscribes_to(self, user_id) -> str:
         """
         This method returns a list of subscription services which the user is subscribed to 
         """
 
         result = self.db.query_db(f"SELECT streaming_name FROM SubscribesTo WHERE user_id='{user_id}'")
-        return result 
+        return result
+
+    # RATINGS
+
+    
         
 
     def end_session(self) -> None:
