@@ -41,3 +41,4 @@ def insert_user():
 
 
 app.run(host="localhost", port=8080, debug=True)
+bs.end_session()
