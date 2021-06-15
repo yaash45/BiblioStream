@@ -22,8 +22,8 @@
         <div class="title">BiblioStream</div>
         <div class="menu">
           <ul>
-            <li>Insert</li>
-            <li>Delete</li>
+            <li><a href="#insert">Insert</a></li>
+            <li><a href="#delete">Delete</a></li>
             <li>Update</li>
             <li>Select</li>
             <li>Project</li>
@@ -32,7 +32,7 @@
       </div>
       <div class="content">
         <div class="form" class="insert_user">
-          <span class="header">Insert User:</span>
+          <span class="header"><a id="insert">Insert User:</a></span>
           <form action="{{url_for('insert_user')}}" method="POST">
             Username:
             <input type="text" name="username" placeholder="Enter your name" />
@@ -51,7 +51,7 @@
           </form>
         </div>
         <div class="form" class="delete_user">
-          <span class="header">Delete User:</span>
+          <span class="header"><a id="delete">Delete User:</a></span>
           <form action="{{url_for('delete_user')}}" method="POST">
             Email:
             <input
