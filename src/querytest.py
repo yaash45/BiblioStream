@@ -48,6 +48,11 @@ class querytest(unittest.TestCase):
         
         self.assertEqual(self.bs.max_certifications(), "blackfriday", "Should be correct")
 
+    
+    def test_select_certifications(self):
+        self.assertEqual(self.bs.select_certification("nsfw"), "blackfriday", "KdotxJcole")
+
+
 
         
 

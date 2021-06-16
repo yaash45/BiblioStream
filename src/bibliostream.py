@@ -176,8 +176,8 @@ class BiblioStream:
         query = f"SELECT v.name, c.name \
             FROM Receives r, Certifications c, VideoMedia v\
             WHERE r.certifications_name = c.name AND r.videomedia_name = v.name AND LOWER(c.name) = LOWER('{selection}')"
-
-        return self.db.query_db(query)
+        text = self.db.query_db(query)
+        return text
 
     # Movies
 
