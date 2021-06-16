@@ -210,6 +210,19 @@ class BiblioStream:
                     RETURNING videomedia_name, certifications_name "
         )
         return f"Inserting {receives_insert[1]} into {receives_insert[0]}"
+    
+    #Division Criter Criteria
+
+    def has_all_streaming(self) -> str:
+        """
+        This method fulfills the division criteria of the rubric; this returns the videomedia which is in every streaming service
+
+        """
+        videoMediaName = self.db.query_db(
+            f"SELECT name"
+
+        )
+
 
 
 
