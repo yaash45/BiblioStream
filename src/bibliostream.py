@@ -157,12 +157,13 @@ class BiblioStream:
 			"ORDER by certCount DESC) As orderedTable \n"+
 			"LIMIT 1;"
         )
+        
         return max_certs[0][0]
     # Video Media
     def insert_VideoMedia(self, name):
         """Thsis method will insert video media into Database given name
         """
-        video = streaming_id = self.db.insert_into_db(
+        video = self.db.insert_into_db(
             f"INSERT INTO VideoMedia(name) \
             VALUES ('{name}') RETURNING name"
         )
@@ -177,7 +178,21 @@ class BiblioStream:
             FROM Receives r, Certifications c, VideoMedia v\
             WHERE r.certifications_name = c.name AND r.videomedia_name = v.name AND LOWER(c.name) = LOWER('{selection}')"
         text = self.db.query_db(query)
-        return text
+        def listToString(s):
+
+            # initialize an empty string
+            str1 = ""
+
+            # traverse in the string
+            for ele in s:
+                str1 += ele
+
+            # return string
+            return str1
+
+        output = listToString([x[0] for x in text])
+        return output
+
 
     # Movies
 
