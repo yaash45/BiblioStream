@@ -171,7 +171,7 @@ class BiblioStream:
 
     def select_certification(self, selection: str) -> list:
         """
-        Selects certifications based on user input
+        Selects certifications based on user input (Join criteria)
         """
         query = f"SELECT v.name, c.name \
             FROM Receives r, Certifications c, VideoMedia v\
@@ -198,7 +198,7 @@ class BiblioStream:
     def select_series(self, criteria) -> list:
         """
         This method selects rows based on the given criteria
-        from the Series table.
+        from the Series table. (Selection Critieria)
         """
 
         if criteria != None or criteria != "":

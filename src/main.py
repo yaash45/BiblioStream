@@ -23,8 +23,8 @@ if args.DatabaseConfigPath != None:
 
 
 @app.route("/")
-def index(project_result=None) -> str:
-    return render_template("index.html", project_result=project_result)
+def index(project_result=None, select_result=None) -> str:
+    return render_template("index.html", project_result=project_result, select_result=select_result)
 
 
 @app.route("/insert_user", methods=["POST"])
@@ -65,6 +65,29 @@ def update_user_phone():
     else:
         return "Failed operation"
 
+@app.route("/select_series", methods=["GET"])
+def select_series():
+
+    # If the get button is pressed, obtain data from database
+    if request.args.get("project_get", None):
+        criteria = None
+
+        if request.args.get("select_criteria", None):
+            criteria = request.args["select_criteria"]
+
+        # If criteria are None, query will throw error. So redirect to index.html
+        if criteria == None:
+            return redirect("/")
+
+        project_result = f"[('showname')] : {bs.select_series(criteria)}"
+
+        return render_template("index.html", project_result=project_result)
+
+    # If reset button is pressed, simply redirect to home
+    elif request.args.get("project_reset", None):
+        return redirect("/")
+
+    return redirect("/")
 
 @app.route("/project_series", methods=["GET"])
 def project_series():

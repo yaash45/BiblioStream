@@ -83,6 +83,23 @@
             <button>Update</button>
           </form>
         </div>
+        <div class="form" class="select_series">
+          <span class="header"><a id="select">Select series:</a></span>
+          <form action="{{url_for('select_series')}}" method="GET">
+          <label for="select_criteria">Enter select criteria: </label>
+            <input
+              type="text"
+              name="select_criteria"
+              placeholder="seasons > 2"
+            />
+            <br />
+            <input type="submit" name="project_get" value="Get"></input>
+            <input type="submit" name="project_reset" value="Reset"></input>
+          </form>
+          {% if project_result %}
+          <span class="db_result"> {{ project_result }}</span>
+          {% endif %}
+        </div>
         <div class="form" class="project_series">
           <span class="header"><a id="project">Project series:</a></span>
           <form action="{{url_for('project_series')}}" method="GET">
@@ -102,8 +119,8 @@
             <input type="submit" name="project_get" value="Get"></input>
             <input type="submit" name="project_reset" value="Reset"></input>
           </form>
-          {% if project_result %}
-          <span class="db_result"> {{ project_result }}</span>
+          {% if select_result %}
+          <span class="db_result"> {{ select_result }}</span>
           {% endif %}
         </div>
       </div>
