@@ -27,6 +27,7 @@
             <li><a href="#update">Update</a></li>
             <li>Select</li>
             <li><a href="#project">Project</a></li>
+            <li><a href="#aggregate">Aggregate</a></li>
           </ul>
         </div>
       </div>
@@ -106,6 +107,22 @@
           <span class="db_result"> {{ project_result }}</span>
           {% endif %}
         </div>
+        <div class="form" class="aggregate_movie_length">
+            <span class="header"><a id="aggregate">Aggregate Movie Length:</a></span>
+            <form action="{{url_for('aggregate_movie_length')}}" method="GET">
+                <label for="agg_func">Seasons:</label>
+                <input
+                type="text"
+                name="agg_func"
+                placeholder="max, min, avg or count"/>     
+              <br />
+              <input type="submit" name="agg_get" value="Get"></input>
+              <input type="submit" name="agg_reset" value="Reset"></input>
+            </form>
+            {% if agg_result %}
+            <span class="db_result"> {{ agg_result }}</span>
+            {% endif %}
+          </div>
       </div>
     </div>
   </body>
