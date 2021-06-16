@@ -55,6 +55,9 @@ class querytest(unittest.TestCase):
     def test_aggregate(self):
         self.assertEqual(self.bs.aggregate_movie_length("avg"), 200, "Lowkey these movies hella long")
 
+    def test_project_series(self):
+        self.assertEqual(self.bs.project_series(), [('boondocks', 4, 24), ('suits', 8, 14)], "f(x)")
+
 
 
         

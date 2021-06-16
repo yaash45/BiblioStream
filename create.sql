@@ -280,3 +280,11 @@ VALUES ('finesse', '200');
 Insert INTO Movies
 VALUES ('jupiter', '300');
 
+INSERT INTO VideoMedia
+Values('boondocks');
+Insert INTO Series
+Values('boondocks', '4', '24');
+INSERT INTO VideoMedia
+Values('suits');
+INSERT INTO Series
+VALUES('suits', '8', '14');
