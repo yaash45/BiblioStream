@@ -173,6 +173,25 @@ def join_video_cert():
 
     return redirect("/")
 
+@app.route("/divsion", methods=["GET"])
+def has_all_division():
+    # If the get button is pressed, obtain data from database
+    if request.args.get("divide_get", None):
+        
+
+        divide_result = f"[('videomedia_name')] : {bs.has_all_streaming()}"
+
+        return render_template("index.html", divide_result=divide_result)
+
+    # If reset button is pressed, simply redirect to home
+    elif request.args.get("join_reset", None):
+        return redirect("/")
+
+    return redirect("/")
+    
+
+
+
 
 try:
     app.run(host="localhost", port=8080, debug=True)

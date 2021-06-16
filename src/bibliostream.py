@@ -269,7 +269,8 @@ class BiblioStream:
         videoMediaName = self.db.query_db(f"SELECT name")
 
     def end_session(self) -> None:
-        """
+        """pipenv install
+        
         This method is called to end the connection to the database.
         """
         self.db.close_db_connection()
