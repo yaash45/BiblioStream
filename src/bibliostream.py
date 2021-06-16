@@ -278,7 +278,7 @@ class BiblioStream:
 
     def has_all_streaming(self) -> str:
         """
-        This method fulfills the division criteria of the rubric; this returns the videomedia which is in every streaming service
+        This method fulfills the division criteria of the rubric; this returns the user which has subscribed to every streaming service
 
         """
         videoMediaName = self.db.query_db(f"SELECT name")
