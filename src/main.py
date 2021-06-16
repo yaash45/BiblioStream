@@ -23,8 +23,10 @@ if args.DatabaseConfigPath != None:
 
 
 @app.route("/")
-def index(project_result=None, select_result=None) -> str:
-    return render_template("index.html", project_result=project_result, select_result=select_result)
+def index(project_result=None, agg_result=None, select_result=None) -> str:
+    return render_template(
+        "index.html", project_result=project_result, agg_result=agg_result, select_result=select_result
+    )
 
 
 @app.route("/insert_user", methods=["POST"])
@@ -119,6 +121,30 @@ def project_series():
 
     # If reset button is pressed, simply redirect to home
     elif request.args.get("project_reset", None):
+        return redirect("/")
+
+    return redirect("/")
+
+
+@app.route("/aggregate_movie_length")
+def aggregate_movie_length():
+    if request.args.get("agg_get", None):
+        if request.args.get("agg_func", None):
+            agg_func = request.args.get("agg_func")
+
+            # Check for valid aggregation function
+            if agg_func.lower() in ["min", "max", "count", "avg"]:
+                # Calculate aggregation result
+                agg_result = bs.aggregate_movie_length(agg_func=agg_func)
+
+                # Render template with agg_result set
+                return render_template(
+                    "index.html", agg_result=f"{agg_func} movie length is {agg_result}"
+                )
+            else:
+                redirect("/")
+
+    elif request.args.get("agg_reset", None):
         return redirect("/")
 
     return redirect("/")
