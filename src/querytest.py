@@ -50,7 +50,10 @@ class querytest(unittest.TestCase):
 
     
     def test_select_certifications(self):
-        self.assertEqual(self.bs.select_certification("nsfw"), "blackfriday", "KdotxJcole")
+        self.assertEqual(self.bs.select_certification("nsfw"), "jupiter", "KdotxJcole")
+
+    def test_aggregate(self):
+        self.assertEqual(self.bs.aggregate_movie_length("avg"), 200, "Lowkey these movies hella long")
 
 
 
