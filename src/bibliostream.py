@@ -136,7 +136,7 @@ class BiblioStream:
         """
 
         cert_insert = self.db.insert_into_db(
-            f"INSERT INTO Certifications(name, id) \
+            f"INSERT INTO Certifications(name) \
             VALUES ('{cert_name}') RETURNING name"
         )
 
@@ -149,13 +149,24 @@ class BiblioStream:
         """
 
         max_certs = self.db.query_db(
-            f"SELECT videomedia_name, max(certCount) FROM  \
-            (SELECT videomedia_name Count(*) as certCount \
-             from Certifications \
-            GROUP BY videomedia_name)"
+            "SELECT videomedia_name FROM \n"+
+            "(SELECT videomedia_name, certCount FROM \n"  +
+            "(SELECT videomedia_name, Count(*) AS certCount \n"+ 
+             "from Receives \n" +
+            "GROUP BY videomedia_name) AS derivedTable \n"+
+			"ORDER by certCount DESC) As orderedTable \n"+
+			"LIMIT 1;"
         )
-        return max_certs[0]
-
+        return max_certs[0][0]
+    # Video Media
+    def insert_VideoMedia(self, name):
+        """Thsis method will insert video media into Database given name
+        """
+        video = streaming_id = self.db.insert_into_db(
+            f"INSERT INTO VideoMedia(name) \
+            VALUES ('{name}') RETURNING name"
+        )
+        return video
     # Movies
     
     def avg_length_movies(self):
@@ -218,10 +229,10 @@ class BiblioStream:
 
         receives_insert = self.db.insert_into_db(
             f"INSERT INTO Receives \
-                VALUES ('SELECT name FROM VideoMedia WHERE name = {videomedia_name}', 'SELECT name FROM Certifications WHERE name = {certifications_name}') \
+                VALUES ('(SELECT name FROM VideoMedia WHERE name = {videomedia_name})', '(SELECT name FROM Certifications WHERE name = {certifications_name})') \
                     RETURNING videomedia_name, certifications_name "
         )
-        return f"Inserting {receives_insert[1]} into {receives_insert[0]}"
+        return f"Inserting {receives_insert}"
     
     #Division Criter Criteria
 
