@@ -223,10 +223,10 @@ CREATE TABLE IF NOT EXISTS ParticipatedInRole (
 		ON DELETE SET NULL
 );
 
-DELETE FROM UserContact
-DELETE FROM UserInfo
-DELETE FROM Certifications
-DELETE FROM RECEIVES
+DELETE FROM UserContact;
+DELETE FROM UserInfo;
+DELETE FROM Certifications;
+DELETE FROM RECEIVES;
 
 INSERT INTO  StreamingServices(name, id) 
 VALUES ('Netflix', '0');

@@ -181,17 +181,17 @@ class BiblioStream:
 
     # Movies
 
-    def avg_length_movies(self):
+    def aggregate_movie_length(self, agg_func:str):
         """
         This method returns the average length/running time of movies
         (Aggregation Criteria)
         """
 
-        avg_length = self.db.query_db(
-            f"SELECT AVG(M.length) \
+        agg_result = self.db.query_db(
+            f"SELECT {agg_func}(M.length) \
             FROM Movies M"
         )
-        return int(avg_length[0][0])
+        return int(agg_result[0][0])
 
     # Series
 
@@ -259,7 +259,7 @@ class BiblioStream:
         )
         return f"Inserting {receives_insert}"
     
-    #Division Criter Criteria
+    # Division Criteria
 
     def has_all_streaming(self) -> str:
         """

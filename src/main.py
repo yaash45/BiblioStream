@@ -17,7 +17,7 @@ def main() -> None:
         # Create an instance of the Database
         db = Database(args.DatabaseConfigPath)
         bs = BiblioStream(db)
-        print(bs.insert_user("Yaash", "abc@ubc.ca", "1234567890"))
+        print(bs.aggregate_movie_length("max"))
         bs.end_session()
 
 
