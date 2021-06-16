@@ -8,6 +8,7 @@ class querytest(unittest.TestCase):
     
     def setUp(self) -> None:
         
+        
         parser = argparse.ArgumentParser(description="Pass database config")
 
             # Define argument for database config file path
@@ -24,8 +25,27 @@ class querytest(unittest.TestCase):
 
     def test_user_count(self):
         
-        #self.bs.insert_user("Anam", "abc@ubc.ca", "1234567890")
+        
         self.assertEqual(self.bs.get_user_count(),1, "Should be 1")
+
+    def test_delete_user(self):
+        
+        self.bs.insert_user("Anam", "abc@anam.ca", "1234567890")
+        self.assertEqual(self.bs.get_user_count(),2, "Should be 2")
+        self.bs.delete_user("abc@anam.ca")
+        self.assertEqual(self.bs.get_user_count(),1, "Should be 1")
+    
+    def test_get_stream_service_count(self):
+        self.assertEqual(self.bs.get_stream_services_count(),1, "Should be 1")
+    
+    def test_all_streaming_service(self):
+        
+        self.assertEqual(self.bs.all_streaming_service(), "Netflix", "Should list all")
+
+    
+
+
+        
             
 
 
