@@ -269,3 +269,14 @@ VALUES ('jupiter', 'NSFW');
 
 INSERT INTO Receives
 VALUES ('blackfriday', 'E');
+
+
+INSERT INTO Movies
+VALUES ('blackfriday', '100');
+
+INSERT INTO Movies
+VALUES ('finesse', '200')
+
+Insert INTO Movies
+VALUES ('jupiter', '300')
+
