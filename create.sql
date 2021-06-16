@@ -222,3 +222,50 @@ CREATE TABLE IF NOT EXISTS ParticipatedInRole (
 		REFERENCES VideoMedia (name)
 		ON DELETE SET NULL
 );
+
+DELETE FROM UserContact
+DELETE FROM UserInfo
+DELETE FROM Certifications
+DELETE FROM RECEIVES
+
+INSERT INTO  StreamingServices(name, id) 
+VALUES ('Netflix', '0');
+
+INSERT INTO  UserContact(email,phone)
+VALUES ('dwns@gmail.com', '32423523');
+
+INSERT INTO UserInfo(id, email,name)
+VALUES (0,'dwns@gmail.com', 'Anam');
+
+INSERT INTO UserContact(email,phone)
+VALUES ('killz@gmail.com', '3243523');
+
+INSERT INTO UserInfo(id, email,name)
+VALUES (1,'killz@gmail.com', 'kdot');
+
+INSERT INTO VideoMedia
+VALUES ('blackfriday');
+
+INSERT INTO VideoMedia
+VALUES ('jupiter');
+
+INSERT INTO VideoMedia
+VALUES ('finesse');
+
+INSERT INTO Certifications(name)
+VALUES ('PG-13');
+
+INSERT INTO Certifications(name)
+VALUES ('E');
+
+INSERT INTO Certifications(name)
+VALUES ('NSFW');
+
+INSERT INTO Receives
+VALUES ('blackfriday', 'PG-13');
+
+INSERT INTO Receives
+VALUES ('jupiter', 'NSFW');
+
+INSERT INTO Receives
+VALUES ('blackfriday', 'E');
