@@ -36,11 +36,11 @@ class querytest(unittest.TestCase):
         #self.assertEqual(self.bs.get_user_count(),1, "Should be 1")
     
     def test_get_stream_service_count(self):
-        self.assertEqual(self.bs.get_stream_services_count(),1, "Should be 1")
+        self.assertEqual(self.bs.get_stream_services_count(),4, "Should be 4")
     
     def test_all_streaming_service(self):
         
-        self.assertEqual(self.bs.all_streaming_service(), "Netflix", "Should list all")
+        self.assertEqual(self.bs.all_streaming_service(), "Netflix HULU Disney+ Crackle ", "Should list all")
 
     
 
@@ -57,6 +57,11 @@ class querytest(unittest.TestCase):
 
     def test_project_series(self):
         self.assertEqual(self.bs.project_series(), [('boondocks', 4, 24), ('suits', 8, 14)], "f(x)")
+
+
+    def test_division(self):
+        self.assertEqual(self.bs.has_all_streaming(), "Anam", "mans really has every streaming services")
+
 
 
 

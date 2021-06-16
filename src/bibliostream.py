@@ -100,7 +100,7 @@ class BiblioStream:
 
             # traverse in the string
             for ele in s:
-                str1 += ele
+                str1 += ele + " "
 
             # return string
             return str1
@@ -281,7 +281,15 @@ class BiblioStream:
         This method fulfills the division criteria of the rubric; this returns the user which has subscribed to every streaming service
 
         """
-        videoMediaName = self.db.query_db(f"SELECT name")
+        busybuddy_name = self.db.query_db("SELECT u.name FROM userINFO u \n" +
+                "WHERE NOT EXISTS \n" +
+                "(SELECT * from StreamingServices s \n" +
+                "WHERE NOT EXISTS \n"+
+                "(SELECT sub.user_id \n"+
+                "FROM SubscribesTo sub \n"+
+                "WHERE u.id = sub.user_id AND \n"+
+                "s.id= sub.streaming_id));")
+        return busybuddy_name[0][0]        
 
     def end_session(self) -> None:
         """
