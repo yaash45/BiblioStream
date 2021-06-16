@@ -194,6 +194,22 @@ class BiblioStream:
         return int(avg_length[0][0])
 
     # Series
+
+    def select_series(self, criteria) -> list:
+        """
+        This method selects rows based on the given criteria
+        from the Series table.
+        """
+
+        if criteria != None or criteria != "":
+            query = f"SELECT name, seasons, episodes\
+                    FROM Series\
+                    WHERE {criteria}"
+
+            return self.db.query_db(query)
+        else:
+            return []
+
     def project_series(self, seasons=True, episodes=True) -> list:
         """
         This method projects selective rows from the Series Table.
