@@ -23,9 +23,9 @@ if args.DatabaseConfigPath != None:
 
 
 @app.route("/")
-def index(project_result=None, agg_result=None, select_result=None) -> str:
+def index(project_result=None, agg_result=None, select_result=None, join_result=None) -> str:
     return render_template(
-        "index.html", project_result=project_result, agg_result=agg_result, select_result=select_result
+        "index.html", project_result=project_result, agg_result=agg_result, select_result=select_result, join_result=join_result
     )
 
 
@@ -71,7 +71,7 @@ def update_user_phone():
 def select_series():
 
     # If the get button is pressed, obtain data from database
-    if request.args.get("project_get", None):
+    if request.args.get("select_get", None):
         criteria = None
 
         if request.args.get("select_criteria", None):
@@ -81,12 +81,12 @@ def select_series():
         if criteria == None:
             return redirect("/")
 
-        project_result = f"[('showname')] : {bs.select_series(criteria)}"
+        select_result = f"[('showname')] : {bs.select_series(criteria)}"
 
-        return render_template("index.html", project_result=project_result)
+        return render_template("index.html", select_result=select_result)
 
     # If reset button is pressed, simply redirect to home
-    elif request.args.get("project_reset", None):
+    elif request.args.get("select_reset", None):
         return redirect("/")
 
     return redirect("/")
@@ -145,6 +145,30 @@ def aggregate_movie_length():
                 redirect("/")
 
     elif request.args.get("agg_reset", None):
+        return redirect("/")
+
+    return redirect("/")
+
+@app.route("/join_video_cert", methods=["GET"])
+def join_video_cert():
+
+    # If the get button is pressed, obtain data from database
+    if request.args.get("join_get", None):
+        certificate = None
+
+        if request.args.get("get_cert", None):
+            certificate = request.args["get_cert"]
+
+        # If criteria are None, query will throw error. So redirect to index.html
+        if certificate == None:
+            return redirect("/")
+
+        join_result = f"[('videomedia_name')] : {bs.select_certification(certificate)}"
+
+        return render_template("index.html", join_result=join_result)
+
+    # If reset button is pressed, simply redirect to home
+    elif request.args.get("join_reset", None):
         return redirect("/")
 
     return redirect("/")

@@ -28,6 +28,7 @@
             <li><a href="#select">Select</a></li>
             <li><a href="#project">Project</a></li>
             <li><a href="#aggregate">Aggregate</a></li>
+            <li><a href="#join">Join</a></li>
           </ul>
         </div>
       </div>
@@ -94,11 +95,11 @@
               placeholder="seasons > 2"
             />
             <br />
-            <input type="submit" name="project_get" value="Get"></input>
-            <input type="submit" name="project_reset" value="Reset"></input>
+            <input type="submit" name="select_get" value="Get"></input>
+            <input type="submit" name="select_reset" value="Reset"></input>
           </form>
-          {% if project_result %}
-          <span class="db_result"> {{ project_result }}</span>
+          {% if select_result %}
+          <span class="db_result"> {{ select_result }}</span>
           {% endif %}
         </div>
         <div class="form" class="project_series">
@@ -120,8 +121,8 @@
             <input type="submit" name="project_get" value="Get"></input>
             <input type="submit" name="project_reset" value="Reset"></input>
           </form>
-          {% if select_result %}
-          <span class="db_result"> {{ select_result }}</span>
+          {% if project_result %}
+          <span class="db_result"> {{ project_result }}</span>
           {% endif %}
         </div>
         <div class="form" class="aggregate_movie_length">
@@ -140,6 +141,23 @@
             <span class="db_result"> {{ agg_result }}</span>
             {% endif %}
           </div>
+        <div class="form" class="join_video_cert">
+          <span class="header"><a id="select">VideoMedia with specified Certificate:</a></span>
+          <form action="{{url_for('join_video_cert')}}" method="GET">
+          <label for="get_cert">Enter Certificate: </label>
+            <input
+              type="text"
+              name="get_cert"
+              placeholder="U/A or R or E"
+            />
+            <br />
+            <input type="submit" name="join_get" value="Get"></input>
+            <input type="submit" name="join_reset" value="Reset"></input>
+          </form>
+          {% if join_result %}
+          <span class="db_result"> {{ join_result }}</span>
+          {% endif %}
+        </div>          
       </div>
     </div>
   </body>
