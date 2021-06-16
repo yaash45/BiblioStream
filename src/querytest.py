@@ -26,14 +26,14 @@ class querytest(unittest.TestCase):
     def test_user_count(self):
         
         
-        self.assertEqual(self.bs.get_user_count(),1, "Should be 1")
+        self.assertEqual(self.bs.get_user_count(),3, "Should be 1")
 
-    def test_delete_user(self):
+  #def test_delete_user(self):
         
-        self.bs.insert_user("Anam", "abc@anam.ca", "1234567890")
-        self.assertEqual(self.bs.get_user_count(),2, "Should be 2")
-        self.bs.delete_user("abc@anam.ca")
-        self.assertEqual(self.bs.get_user_count(),1, "Should be 1")
+        #self.bs.insert_user("Anam", "abc@anam.ca", "1234567890")
+        #self.assertEqual(self.bs.get_user_count(),2, "Should be 2")
+        #self.bs.delete_user("abc@anam.ca")
+        #self.assertEqual(self.bs.get_user_count(),1, "Should be 1")
     
     def test_get_stream_service_count(self):
         self.assertEqual(self.bs.get_stream_services_count(),1, "Should be 1")
@@ -44,9 +44,17 @@ class querytest(unittest.TestCase):
 
     
 
+    def test_max_cert(self):
+        
+        self.assertEqual(self.bs.max_certifications(), "blackfriday", "Should be correct")
+
+    
+    def test_select_certifications(self):
+        self.assertEqual(self.bs.select_certification("nsfw"), "blackfriday", "KdotxJcole")
+
+
 
         
-            
 
 
 

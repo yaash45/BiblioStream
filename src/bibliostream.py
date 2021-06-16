@@ -60,7 +60,6 @@ class BiblioStream:
         self.db.update_in_db(query)
         return f"Updated user with email = {email} to have phone number {phone}"
 
-
     # StreamingServices
     def get_stream_services_count(self) -> int:
         """
@@ -90,23 +89,24 @@ class BiblioStream:
         This method returns all of the streaming services available within the website
 
         (Projection criteria)
-        """     
+        """
 
         string_names = self.db.query_db("SELECT id, name FROM StreamingServices")
-        def listToString(s): 
-    
+
+        def listToString(s):
+
             # initialize an empty string
-                str1 = "" 
-        
-                # traverse in the string  
-                for ele in s: 
-                    str1 += ele  
+            str1 = ""
 
-                 # return string  
-                return str1 
-        output = listToString([x[1] for x in string_names])       
+            # traverse in the string
+            for ele in s:
+                str1 += ele
+
+            # return string
+            return str1
+
+        output = listToString([x[1] for x in string_names])
         return output
-
 
     # SubscribesTo
     def get_subscribes_to(self, user_id) -> str:
@@ -121,13 +121,13 @@ class BiblioStream:
 
     def get_subcribes_to_count(self, user_id) -> int:
         """
-        This method returns the number of subscription services to which the user is subscribed to 
+        This method returns the number of subscription services to which the user is subscribed to
         """
 
         result = self.db.query_db(
-            f"SELECT Count(*) FROM SubscribesTO WHERE user_id='{user_id}'")
+            f"SELECT Count(*) FROM SubscribesTO WHERE user_id='{user_id}'"
+        )
         return int(result[0][0])
-
 
     # Certifications
     def insert_cert(self, cert_name) -> str:
@@ -136,7 +136,7 @@ class BiblioStream:
         """
 
         cert_insert = self.db.insert_into_db(
-            f"INSERT INTO Certifications(name, id) \
+            f"INSERT INTO Certifications(name) \
             VALUES ('{cert_name}') RETURNING name"
         )
 
@@ -149,34 +149,72 @@ class BiblioStream:
         """
 
         max_certs = self.db.query_db(
-            f"SELECT videomedia_name, max(certCount) FROM  \
-            (SELECT videomedia_name Count(*) as certCount \
-             from Certifications \
-            GROUP BY videomedia_name)"
+            "SELECT videomedia_name FROM \n"+
+            "(SELECT videomedia_name, certCount FROM \n"  +
+            "(SELECT videomedia_name, Count(*) AS certCount \n"+ 
+             "from Receives \n" +
+            "GROUP BY videomedia_name) AS derivedTable \n"+
+			"ORDER by certCount DESC) As orderedTable \n"+
+			"LIMIT 1;"
         )
-        return max_certs[0]
+        return max_certs[0][0]
+    # Video Media
+    def insert_VideoMedia(self, name):
+        """Thsis method will insert video media into Database given name
+        """
+        video = streaming_id = self.db.insert_into_db(
+            f"INSERT INTO VideoMedia(name) \
+            VALUES ('{name}') RETURNING name"
+        )
+        return video
+        
+
+    def select_certification(self, selection: str) -> list:
+        """
+        Selects certifications based on user input
+        """
+        query = f"SELECT v.name, c.name \
+            FROM Receives r, Certifications c, VideoMedia v\
+            WHERE r.certifications_name = c.name AND r.videomedia_name = v.name AND LOWER(c.name) = LOWER('{selection}')"
+        text = self.db.query_db(query)
+        return text
 
     # Movies
-    
-    def avg_length_movies(self):
+
+    def aggregate_movie_length(self, agg_func:str):
         """
         This method returns the average length/running time of movies
         (Aggregation Criteria)
         """
-        
-        avg_length = self.db.query_db(
-            f"SELECT AVG(M.length) \
+
+        agg_result = self.db.query_db(
+            f"SELECT {agg_func}(M.length) \
             FROM Movies M"
         )
-        return int(avg_length[0][0])
-                       
+        return int(agg_result[0][0])
 
     # Series
+
+    def select_series(self, criteria) -> list:
+        """
+        This method selects rows based on the given criteria
+        from the Series table.
+        """
+
+        if criteria != None or criteria != "":
+            query = f"SELECT name, seasons, episodes\
+                    FROM Series\
+                    WHERE {criteria}"
+
+            return self.db.query_db(query)
+        else:
+            return []
+
     def project_series(self, seasons=True, episodes=True) -> list:
         """
         This method projects selective rows from the Series Table.
         """
-        
+
         if seasons == False and episodes == False:
             raise (
                 Exception(
@@ -195,7 +233,6 @@ class BiblioStream:
 
         return self.db.query_db(query)
 
-
     # Genre
     def insert_genre(self, genre_name) -> str:
         """
@@ -209,7 +246,6 @@ class BiblioStream:
 
         return f"Inserted genre with name = {genre_insert}"
 
-
     # Receives
     def insert_receives(self, videomedia_name, certifications_name) -> str:
         """
@@ -218,25 +254,19 @@ class BiblioStream:
 
         receives_insert = self.db.insert_into_db(
             f"INSERT INTO Receives \
-                VALUES ('SELECT name FROM VideoMedia WHERE name = {videomedia_name}', 'SELECT name FROM Certifications WHERE name = {certifications_name}') \
+                VALUES ('(SELECT name FROM VideoMedia WHERE name = {videomedia_name})', '(SELECT name FROM Certifications WHERE name = {certifications_name})') \
                     RETURNING videomedia_name, certifications_name "
         )
-        return f"Inserting {receives_insert[1]} into {receives_insert[0]}"
+        return f"Inserting {receives_insert}"
     
-    #Division Criter Criteria
+    # Division Criteria
 
     def has_all_streaming(self) -> str:
         """
         This method fulfills the division criteria of the rubric; this returns the videomedia which is in every streaming service
 
         """
-        videoMediaName = self.db.query_db(
-            f"SELECT name"
-
-        )
-
-
-
+        videoMediaName = self.db.query_db(f"SELECT name")
 
     def end_session(self) -> None:
         """
