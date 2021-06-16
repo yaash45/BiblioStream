@@ -1,3 +1,4 @@
+from typing import DefaultDict
 from database import Database
 
 
@@ -92,8 +93,19 @@ class BiblioStream:
         """     
 
         string_names = self.db.query_db("SELECT id, name FROM StreamingServices")
+        def listToString(s): 
+    
+            # initialize an empty string
+                str1 = "" 
+        
+                # traverse in the string  
+                for ele in s: 
+                    str1 += ele  
 
-        return string_names
+                 # return string  
+                return str1 
+        output = listToString([x[1] for x in string_names])       
+        return output
 
 
     # SubscribesTo
