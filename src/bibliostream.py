@@ -100,7 +100,7 @@ class BiblioStream:
 
             # traverse in the string
             for ele in s:
-                str1 += ele
+                str1 += ele + " "
 
             # return string
             return str1
@@ -149,25 +149,25 @@ class BiblioStream:
         """
 
         max_certs = self.db.query_db(
-            "SELECT videomedia_name FROM \n"+
-            "(SELECT videomedia_name, certCount FROM \n"  +
-            "(SELECT videomedia_name, Count(*) AS certCount \n"+ 
-             "from Receives \n" +
-            "GROUP BY videomedia_name) AS derivedTable \n"+
-			"ORDER by certCount DESC) As orderedTable \n"+
-			"LIMIT 1;"
+            "SELECT videomedia_name FROM \n"
+            + "(SELECT videomedia_name, certCount FROM \n"
+            + "(SELECT videomedia_name, Count(*) AS certCount \n"
+            + "from Receives \n"
+            + "GROUP BY videomedia_name) AS derivedTable \n"
+            + "ORDER by certCount DESC) As orderedTable \n"
+            + "LIMIT 1;"
         )
+
         return max_certs[0][0]
+
     # Video Media
     def insert_VideoMedia(self, name):
-        """Thsis method will insert video media into Database given name
-        """
-        video = streaming_id = self.db.insert_into_db(
+        """Thsis method will insert video media into Database given name"""
+        video = self.db.insert_into_db(
             f"INSERT INTO VideoMedia(name) \
             VALUES ('{name}') RETURNING name"
         )
         return video
-        
 
     def select_certification(self, selection: str) -> list:
         """
@@ -176,12 +176,26 @@ class BiblioStream:
         query = f"SELECT v.name, c.name \
             FROM Receives r, Certifications c, VideoMedia v\
             WHERE r.certifications_name = c.name AND r.videomedia_name = v.name AND LOWER(c.name) = LOWER('{selection}')"
-        
-        return self.db.query_db(query)
+        text = self.db.query_db(query)
+
+        def listToString(s):
+
+            # initialize an empty string
+            str1 = ""
+
+            # traverse in the string
+            for ele in s:
+                str1 += ele
+
+            # return string
+            return str1
+
+        output = listToString([x[0] for x in text])
+        return output
 
     # Movies
 
-    def aggregate_movie_length(self, agg_func:str):
+    def aggregate_movie_length(self, agg_func: str):
         """
         This method returns the average length/running time of movies
         (Aggregation Criteria)
@@ -258,15 +272,25 @@ class BiblioStream:
                     RETURNING videomedia_name, certifications_name "
         )
         return f"Inserting {receives_insert}"
-    
+
     # Division Criteria
 
     def has_all_streaming(self) -> str:
         """
-        This method fulfills the division criteria of the rubric; this returns the videomedia which is in every streaming service
+        This method fulfills the division criteria of the rubric; this returns the user which has subscribed to every streaming service
 
         """
-        videoMediaName = self.db.query_db(f"SELECT name")
+        busybuddy_name = self.db.query_db(
+            "SELECT u.name FROM userINFO u \n"
+            + "WHERE NOT EXISTS \n"
+            + "(SELECT * from StreamingServices s \n"
+            + "WHERE NOT EXISTS \n"
+            + "(SELECT sub.user_id \n"
+            + "FROM SubscribesTo sub \n"
+            + "WHERE u.id = sub.user_id AND \n"
+            + "s.id= sub.streaming_id));"
+        )
+        return busybuddy_name[0][0]
 
     def end_session(self) -> None:
         """
