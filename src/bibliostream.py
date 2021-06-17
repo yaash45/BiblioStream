@@ -142,42 +142,41 @@ class BiblioStream:
 
         return f"Inserted cert with name = {cert_insert}"
 
-    def max_certifications(self):
+    def max_certifications(self, minmax: str):
         """
         This method returns the videomedia with the most certifications
         (Nested AGGREGATE) criteria (not tested yet) (need to populate respective tables)
         """
 
         max_certs = self.db.query_db(
-            "SELECT videomedia_name FROM \n"+
-            "(SELECT videomedia_name, certCount FROM \n"  +
-            "(SELECT videomedia_name, Count(*) AS certCount \n"+ 
-             "from Receives \n" +
-            "GROUP BY videomedia_name) AS derivedTable \n"+
-			"ORDER by certCount DESC) As orderedTable \n"+
-			"LIMIT 1;"
-        )
-        
+            f"SELECT videomedia_name FROM \
+            (SELECT videomedia_name, certCount FROM \
+            (SELECT videomedia_name, Count(*) AS certCount \
+            from Receives \
+            GROUP BY videomedia_name) AS derivedTable \
+            ORDER by certCount {minmax}) As orderedTable \
+            LIMIT 1;")
+
         return max_certs[0][0]
+
     # Video Media
     def insert_VideoMedia(self, name):
-        """Thsis method will insert video media into Database given name
-        """
+        """Thsis method will insert video media into Database given name"""
         video = self.db.insert_into_db(
             f"INSERT INTO VideoMedia(name) \
             VALUES ('{name}') RETURNING name"
         )
         return video
-        
 
     def select_certification(self, selection: str) -> list:
         """
-        Selects certifications based on user input
+        Selects certifications based on user input (Join criteria)
         """
         query = f"SELECT v.name, c.name \
             FROM Receives r, Certifications c, VideoMedia v\
             WHERE r.certifications_name = c.name AND r.videomedia_name = v.name AND LOWER(c.name) = LOWER('{selection}')"
         text = self.db.query_db(query)
+
         def listToString(s):
 
             # initialize an empty string
@@ -193,10 +192,9 @@ class BiblioStream:
         output = listToString([x[0] for x in text])
         return output
 
-
     # Movies
 
-    def aggregate_movie_length(self, agg_func:str):
+    def aggregate_movie_length(self, agg_func: str):
         """
         This method returns the average length/running time of movies
         (Aggregation Criteria)
@@ -213,7 +211,7 @@ class BiblioStream:
     def select_series(self, criteria) -> list:
         """
         This method selects rows based on the given criteria
-        from the Series table.
+        from the Series table. (Selection Critieria)
         """
 
         if criteria != None or criteria != "":
@@ -273,26 +271,45 @@ class BiblioStream:
                     RETURNING videomedia_name, certifications_name "
         )
         return f"Inserting {receives_insert}"
-    
+
     # Division Criteria
 
-    def has_all_streaming(self) -> str:
+    def has_all_streaming(self, user=True, email=True) -> str:
         """
         This method fulfills the division criteria of the rubric; this returns the user which has subscribed to every streaming service
 
         """
-        busybuddy_name = self.db.query_db("SELECT u.name FROM userINFO u \n" +
-                "WHERE NOT EXISTS \n" +
-                "(SELECT * from StreamingServices s \n" +
-                "WHERE NOT EXISTS \n"+
-                "(SELECT sub.user_id \n"+
-                "FROM SubscribesTo sub \n"+
-                "WHERE u.id = sub.user_id AND \n"+
-                "s.id= sub.streaming_id));")
-        return busybuddy_name[0][0]        
+        
+        if user == False and email == False:
+            raise (
+                Exception(
+                    "Please select at least one of the user and email to be true"
+                )
+            )
+        
+        if user == True and email == True:
+            query = "SELECT u.name, u.email FROM userINFO u \n"
+        elif user:
+            query = "SELECT u.name FROM userINFO u \n"
+        elif email:
+            query = "SELECT u.email FROM userINFO u \n"
+            
+        
+        busybuddy_name = self.db.query_db(
+            query
+            + "WHERE NOT EXISTS \n"
+            + "(SELECT * from StreamingServices s \n"
+            + "WHERE NOT EXISTS \n"
+            + "(SELECT sub.user_id \n"
+            + "FROM SubscribesTo sub \n"
+            + "WHERE u.id = sub.user_id AND \n"
+            + "s.id= sub.streaming_id));"
+        )
+        return busybuddy_name
 
     def end_session(self) -> None:
-        """
+        """pipenv install
+        
         This method is called to end the connection to the database.
         """
         self.db.close_db_connection()

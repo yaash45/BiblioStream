@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles/mainpage.css') }}"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mate+SC&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <title>BiblioStream</title>
+  </head>
+  <body>
+    <div class="main_container">
+      <div class="navbar">
+        <div class="title"><a href="/">BiblioStream</a></div>
+        <div class="menu">
+          <ul>
+            <li><a href="#insert">Insert</a></li>
+            <li><a href="#delete">Delete</a></li>
+            <li><a href="#update">Update</a></li>
+            <li><a href="#select">Select</a></li>
+            <li><a href="#project">Project</a></li>
+            <li><a href="#aggregate">Aggregate</a></li>
+            <li><a href="#join">Join</a></li>
+            <li><a href="#division">Division</a></li>
+            <li><a href="#certs">Certs</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="content">
+        <div class="form" class="insert_user">
+          <span class="header"><a id="insert">Insert User:</a></span>
+          <form action="{{url_for('insert_user')}}" method="POST">
+            Username:
+            <input type="text" name="username" placeholder="Enter your name" />
+            <br />
+            Email:
+            <input type="text" name="email" placeholder="Enter your email" />
+            <br />
+            Phone:
+            <input
+              type="text"
+              name="phone"
+              placeholder="Enter your phone no."
+            />
+            <br />
+            <button>Insert</button>
+          </form>
+        </div>
+        <div class="form" class="delete_user">
+          <span class="header"><a id="delete">Delete User:</a></span>
+          <form action="{{url_for('delete_user')}}" method="POST">
+            Email:
+            <input
+              type="text"
+              name="delete_email"
+              placeholder="Enter your email"
+            />
+            <br />
+            <button>Delete</button>
+          </form>
+        </div>
+        <div class="form" class="update_user_phone">
+          <span class="header"><a id="update">Update user phone:</a></span>
+          <form action="{{url_for('update_user_phone')}}" method="POST">
+            Email:
+            <input
+              type="text"
+              name="update_email"
+              placeholder="Enter your email"
+            />
+            <br />
+            Phone:
+            <input
+              type="text"
+              name="update_phone"
+              placeholder="Enter your phone no."
+            />
+            <br />
+            <button>Update</button>
+          </form>
+        </div>
+        <div class="form" class="select_series">
+          <span class="header"><a id="select">Select series:</a></span>
+          <form action="{{url_for('select_series')}}" method="GET">
+          <label for="select_criteria">Enter select criteria: </label>
+            <input
+              type="text"
+              name="select_criteria"
+              placeholder="seasons > 2"
+            />
+            <br />
+            <input type="submit" name="select_get" value="Get"></input>
+            <input type="submit" name="select_reset" value="Reset"></input>
+          </form>
+          {% if select_result %}
+          <span class="db_result"> {{ select_result }}</span>
+          {% endif %}
+        </div>
+        <div class="form" class="project_series">
+          <span class="header"><a id="project">Project series:</a></span>
+          <form action="{{url_for('project_series')}}" method="GET">
+            <input
+              type="checkbox"
+              name="project_seasons"
+              value="seasons"
+            />
+            <label for="project_seasons">Seasons</label>
+            <input
+              type="checkbox"
+              name="project_episodes"
+              value="episodes"
+            />
+            <label for="project_episodes">Episodes</label>
+            <br />
+            <input type="submit" name="project_get" value="Get"></input>
+            <input type="submit" name="project_reset" value="Reset"></input>
+          </form>
+          {% if project_result %}
+          <span class="db_result"> {{ project_result }}</span>
+          {% endif %}
+        </div>
+        <div class="form" class="aggregate_movie_length">
+            <span class="header"><a id="aggregate">Aggregate Movie Length:</a></span>
+            <form action="{{url_for('aggregate_movie_length')}}" method="GET">
+                <label for="agg_func">Seasons:</label>
+                <input
+                type="text"
+                name="agg_func"
+                placeholder="max, min, avg or count"/>     
+              <br />
+              <input type="submit" name="agg_get" value="Get"></input>
+              <input type="submit" name="agg_reset" value="Reset"></input>
+            </form>
+            {% if agg_result %}
+            <span class="db_result"> {{ agg_result }}</span>
+            {% endif %}
+          </div>
+        <div class="form" class="join_video_cert">
+          <span class="header"><a id="join">VideoMedia with specified Certificate:</a></span>
+          <form action="{{url_for('join_video_cert')}}" method="GET">
+          <label for="get_cert">Enter Certificate: </label>
+            <input
+              type="text"
+              name="get_cert"
+              placeholder="U/A or R or E"
+            />
+            <br />
+            <input type="submit" name="join_get" value="Get"></input>
+            <input type="submit" name="join_reset" value="Reset"></input>
+          </form>
+          {% if join_result %}
+          <span class="db_result"> {{ join_result }}</span>
+          {% endif %}
+        </div>
+        <div class="form" class="division_streaming">
+          <span class="header"><a id="division">Division query relating all streaming services:</a></span>
+          <form action="{{url_for('division_streaming')}}" method="GET">
+            <input
+              type="checkbox"
+              name="division_user"
+              value="users"
+            />
+            <label for="division_user">Users</label>
+            <input
+              type="checkbox"
+              name="division_email"
+              value="movies"
+            />
+            <label for="division_email">Email</label>
+            <br />
+            <input type="submit" name="division_get" value="Get"></input>
+            <input type="submit" name="division_reset" value="Reset"></input>
+          </form>
+          {% if division_result %}
+          <span class="db_result"> {{ division_result }}</span>
+          {% endif %}
+        </div>       
+        <div class="form" class="max_certs">
+          <span class="header"><a id="certs">Movie with most/least certifications:</a></span>
+          <form action="{{url_for('max_certs')}}" method="GET">
+              <label for="ascdesc">Seasons:</label>
+              <input
+              type="text"
+              name="ascdesc"
+              placeholder="ASC or DESC"/>     
+            <br />
+            <input type="submit" name="max_get" value="Get"></input>
+            <input type="submit" name="max_reset" value="Reset"></input>
+          </form>
+          {% if cert_result %}
+          <span class="db_result"> {{ cert_result }}</span>
+          {% endif %}
+        </div>    
+      </div>
+    </div>
+  </body>
+</html>
