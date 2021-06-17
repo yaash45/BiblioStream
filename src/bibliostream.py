@@ -293,7 +293,8 @@ class BiblioStream:
         return busybuddy_name[0][0]
 
     def end_session(self) -> None:
-        """
+        """pipenv install
+        
         This method is called to end the connection to the database.
         """
         self.db.close_db_connection()
