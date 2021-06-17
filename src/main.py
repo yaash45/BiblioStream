@@ -207,6 +207,33 @@ def division_streaming():
 
     return redirect("/")
 
+@app.route("/max_certs", methods=["GET"])
+def max_certs():
+    if request.args.get("max_get", None):
+        if request.args.get("ascdesc", None):
+            ascdesc = request.args.get("ascdesc")
+
+            # Check for valid nested aggregation function
+            if ascdesc.lower() in ["desc", "asc"]:
+                # Calculate nested aggregation result
+                cert_result = bs.max_certifications(minmax=ascdesc)
+                output = None
+                if(ascdesc.lower() == "asc"):
+                    output = "least"
+                else:
+                    output = "most"
+
+                # Render template with agg_result set
+                return render_template(
+                    "index.html", cert_result=f"The movie with the {output} certificates is {cert_result}"
+                )
+            else:
+                redirect("/")
+
+    elif request.args.get("max_reset", None):
+        return redirect("/")
+
+    return redirect("/")
 
 
 try:

@@ -30,6 +30,7 @@
             <li><a href="#aggregate">Aggregate</a></li>
             <li><a href="#join">Join</a></li>
             <li><a href="#division">Division</a></li>
+            <li><a href="#certs">Certs</a></li>
           </ul>
         </div>
       </div>
@@ -181,7 +182,23 @@
           {% if division_result %}
           <span class="db_result"> {{ division_result }}</span>
           {% endif %}
-        </div>          
+        </div>       
+        <div class="form" class="max_certs">
+          <span class="header"><a id="certs">Movie with most/least certifications:</a></span>
+          <form action="{{url_for('max_certs')}}" method="GET">
+              <label for="ascdesc">Seasons:</label>
+              <input
+              type="text"
+              name="ascdesc"
+              placeholder="ASC or DESC"/>     
+            <br />
+            <input type="submit" name="max_get" value="Get"></input>
+            <input type="submit" name="max_reset" value="Reset"></input>
+          </form>
+          {% if cert_result %}
+          <span class="db_result"> {{ cert_result }}</span>
+          {% endif %}
+        </div>    
       </div>
     </div>
   </body>

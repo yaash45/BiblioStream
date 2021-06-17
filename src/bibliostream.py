@@ -142,21 +142,20 @@ class BiblioStream:
 
         return f"Inserted cert with name = {cert_insert}"
 
-    def max_certifications(self):
+    def max_certifications(self, minmax: str):
         """
         This method returns the videomedia with the most certifications
         (Nested AGGREGATE) criteria (not tested yet) (need to populate respective tables)
         """
 
         max_certs = self.db.query_db(
-            "SELECT videomedia_name FROM \n"
-            + "(SELECT videomedia_name, certCount FROM \n"
-            + "(SELECT videomedia_name, Count(*) AS certCount \n"
-            + "from Receives \n"
-            + "GROUP BY videomedia_name) AS derivedTable \n"
-            + "ORDER by certCount DESC) As orderedTable \n"
-            + "LIMIT 1;"
-        )
+            f"SELECT videomedia_name FROM \
+            (SELECT videomedia_name, certCount FROM \
+            (SELECT videomedia_name, Count(*) AS certCount \
+            from Receives \
+            GROUP BY videomedia_name) AS derivedTable \
+            ORDER by certCount {minmax}) As orderedTable \
+            LIMIT 1;")
 
         return max_certs[0][0]
 
