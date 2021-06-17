@@ -23,9 +23,9 @@ if args.DatabaseConfigPath != None:
 
 
 @app.route("/")
-def index(project_result=None, agg_result=None, select_result=None, join_result=None) -> str:
+def index(project_result=None, agg_result=None, select_result=None, join_result=None, division_result=None) -> str:
     return render_template(
-        "index.html", project_result=project_result, agg_result=agg_result, select_result=select_result, join_result=join_result
+        "index.html", project_result=project_result, agg_result=agg_result, select_result=select_result, join_result=join_result, division_result=None
     )
 
 
@@ -172,24 +172,40 @@ def join_video_cert():
         return redirect("/")
 
     return redirect("/")
+   
+@app.route("/division_streaming", methods=["GET"])
+def division_streaming():
 
-@app.route("/divsion", methods=["GET"])
-def has_all_division():
     # If the get button is pressed, obtain data from database
-    if request.args.get("divide_get", None):
-        
+    if request.args.get("division_get", None):
+        user = None
+        email = None
 
-        divide_result = f"[('videomedia_name')] : {bs.has_all_streaming()}"
+        if request.args.get("division_user", None):
+            user = request.args["division_user"]
+        if request.args.get("division_email", None):
+            email = request.args["division_email"]
 
-        return render_template("index.html", divide_result=divide_result)
+        # If both are None, query will throw error. So redirect to index.html
+        if user == None and email == None:
+            return redirect("/")
+
+        # Project based on selected checkboxes
+        if user != None and email != None:
+            division_result = f"'name', 'email' : \
+                {bs.has_all_streaming(user=True, email=True)}"
+        elif user != None and email == None:
+            division_result = f"'name' : {bs.has_all_streaming(user=True, email=False)}"
+        elif user == None and email != None:
+            division_result = f"'email' : {bs.has_all_streaming(user=False, email=True)}"
+
+        return render_template("index.html", division_result=division_result)
 
     # If reset button is pressed, simply redirect to home
-    elif request.args.get("join_reset", None):
+    elif request.args.get("division_reset", None):
         return redirect("/")
 
     return redirect("/")
-    
-
 
 
 

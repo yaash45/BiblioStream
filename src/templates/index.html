@@ -159,17 +159,29 @@
           <span class="db_result"> {{ join_result }}</span>
           {% endif %}
         </div>
-        <div class="form" class="division_user">
-          <span class="header"><a id="division">Users that are subscribed to all streaming services:</a></span>
-          <form action="{{url_for('division_user')}}" method="GET">
-        
-            <input type="submit" name="divison_get" value="Get"></input>
-           
+        <div class="form" class="division_streaming">
+          <span class="header"><a id="division">Division query relating all streaming services:</a></span>
+          <form action="{{url_for('division_streaming')}}" method="GET">
+            <input
+              type="checkbox"
+              name="division_user"
+              value="users"
+            />
+            <label for="division_user">Users</label>
+            <input
+              type="checkbox"
+              name="division_email"
+              value="movies"
+            />
+            <label for="division_email">Email</label>
+            <br />
+            <input type="submit" name="division_get" value="Get"></input>
+            <input type="submit" name="division_reset" value="Reset"></input>
           </form>
-          {% if divide_result %}
-          <span class="db_result"> {{ divide_result }}</span>
+          {% if division_result %}
+          <span class="db_result"> {{ division_result }}</span>
           {% endif %}
-        </div>           
+        </div>          
       </div>
     </div>
   </body>

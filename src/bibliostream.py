@@ -275,13 +275,29 @@ class BiblioStream:
 
     # Division Criteria
 
-    def has_all_streaming(self) -> str:
+    def has_all_streaming(self, user=True, email=True) -> str:
         """
         This method fulfills the division criteria of the rubric; this returns the user which has subscribed to every streaming service
 
         """
+        
+        if user == False and email == False:
+            raise (
+                Exception(
+                    "Please select at least one of the user and email to be true"
+                )
+            )
+        
+        if user == True and email == True:
+            query = "SELECT u.name, u.email FROM userINFO u \n"
+        elif user:
+            query = "SELECT u.name FROM userINFO u \n"
+        elif email:
+            query = "SELECT u.email FROM userINFO u \n"
+            
+        
         busybuddy_name = self.db.query_db(
-            "SELECT u.name FROM userINFO u \n"
+            query
             + "WHERE NOT EXISTS \n"
             + "(SELECT * from StreamingServices s \n"
             + "WHERE NOT EXISTS \n"
@@ -290,7 +306,7 @@ class BiblioStream:
             + "WHERE u.id = sub.user_id AND \n"
             + "s.id= sub.streaming_id));"
         )
-        return busybuddy_name[0][0]
+        return busybuddy_name
 
     def end_session(self) -> None:
         """pipenv install
