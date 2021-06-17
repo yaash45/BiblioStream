@@ -192,13 +192,18 @@ def max_certs():
             ascdesc = request.args.get("ascdesc")
 
             # Check for valid nested aggregation function
-            if ascdesc.lower() in ["DESC", "ASC"]:
+            if ascdesc.lower() in ["desc", "asc"]:
                 # Calculate nested aggregation result
                 cert_result = bs.max_certifications(minmax=ascdesc)
+                output = None
+                if(ascdesc.lower() == "asc"):
+                    output = "least"
+                else:
+                    output = "most"
 
                 # Render template with agg_result set
                 return render_template(
-                    "index.html", cert_result=f"{ascdesc} movie length is {cert_result}"
+                    "index.html", cert_result=f"The movie with the {output} certificates is {cert_result}"
                 )
             else:
                 redirect("/")
