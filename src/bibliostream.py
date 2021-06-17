@@ -100,7 +100,7 @@ class BiblioStream:
 
             # traverse in the string
             for ele in s:
-                str1 += ele
+                str1 += ele + " "
 
             # return string
             return str1
@@ -157,12 +157,13 @@ class BiblioStream:
 			"ORDER by certCount DESC) As orderedTable \n"+
 			"LIMIT 1;"
         )
+        
         return max_certs[0][0]
     # Video Media
     def insert_VideoMedia(self, name):
         """Thsis method will insert video media into Database given name
         """
-        video = streaming_id = self.db.insert_into_db(
+        video = self.db.insert_into_db(
             f"INSERT INTO VideoMedia(name) \
             VALUES ('{name}') RETURNING name"
         )
@@ -177,7 +178,21 @@ class BiblioStream:
             FROM Receives r, Certifications c, VideoMedia v\
             WHERE r.certifications_name = c.name AND r.videomedia_name = v.name AND LOWER(c.name) = LOWER('{selection}')"
         text = self.db.query_db(query)
-        return text
+        def listToString(s):
+
+            # initialize an empty string
+            str1 = ""
+
+            # traverse in the string
+            for ele in s:
+                str1 += ele
+
+            # return string
+            return str1
+
+        output = listToString([x[0] for x in text])
+        return output
+
 
     # Movies
 
@@ -263,10 +278,18 @@ class BiblioStream:
 
     def has_all_streaming(self) -> str:
         """
-        This method fulfills the division criteria of the rubric; this returns the videomedia which is in every streaming service
+        This method fulfills the division criteria of the rubric; this returns the user which has subscribed to every streaming service
 
         """
-        videoMediaName = self.db.query_db(f"SELECT name")
+        busybuddy_name = self.db.query_db("SELECT u.name FROM userINFO u \n" +
+                "WHERE NOT EXISTS \n" +
+                "(SELECT * from StreamingServices s \n" +
+                "WHERE NOT EXISTS \n"+
+                "(SELECT sub.user_id \n"+
+                "FROM SubscribesTo sub \n"+
+                "WHERE u.id = sub.user_id AND \n"+
+                "s.id= sub.streaming_id));")
+        return busybuddy_name[0][0]        
 
     def end_session(self) -> None:
         """

@@ -269,3 +269,34 @@ VALUES ('jupiter', 'NSFW');
 
 INSERT INTO Receives
 VALUES ('blackfriday', 'E');
+
+
+INSERT INTO Movies
+VALUES ('blackfriday', '100');
+
+INSERT INTO Movies
+VALUES ('finesse', '200');
+
+Insert INTO Movies
+VALUES ('jupiter', '300');
+
+INSERT INTO VideoMedia
+Values('boondocks');
+Insert INTO Series
+Values('boondocks', '4', '24');
+INSERT INTO VideoMedia
+Values('suits');
+
+INSERT INTO StreamingServices
+Values('HULU', '1');
+INSERT INTO StreamingServices
+Values('Disney+', '2');
+INSERT INTO StreamingServices
+VALUES('Crackle', '3');
+INSERT INTO SubscribesTo
+VALUES('1', 'Hulu', '0', '1');
+INSERT INTO SubscribesTo
+VALUES('2', 'Disney+', '0', '1');
+INSERT INTO SubscribesTo
+VALUES('3', 'Crackle', '0', '1');
+
