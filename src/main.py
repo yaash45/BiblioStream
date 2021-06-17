@@ -187,23 +187,23 @@ def has_all_division():
     return redirect("/")
 @app.route("/max_certs", methods=["GET"])
 def max_certs():
-    if request.args.get("agg_get", None):
-        if request.args.get("agg_func", None):
-            agg_func = request.args.get("agg_func")
+    if request.args.get("max_get", None):
+        if request.args.get("ascdesc", None):
+            ascdesc = request.args.get("ascdesc")
 
-            # Check for valid aggregation function
-            if agg_func.lower() in ["min", "max", "count", "avg"]:
-                # Calculate aggregation result
-                agg_result = bs.aggregate_movie_length(agg_func=agg_func)
+            # Check for valid nested aggregation function
+            if ascdesc.lower() in ["DESC", "ASC"]:
+                # Calculate nested aggregation result
+                cert_result = bs.max_certifications(minmax=ascdesc)
 
                 # Render template with agg_result set
                 return render_template(
-                    "index.html", agg_result=f"{agg_func} movie length is {agg_result}"
+                    "index.html", cert_result=f"{ascdesc} movie length is {cert_result}"
                 )
             else:
                 redirect("/")
 
-    elif request.args.get("agg_reset", None):
+    elif request.args.get("max_reset", None):
         return redirect("/")
 
     return redirect("/")
