@@ -1,4 +1,4 @@
-# CPSC 304 Team 49: BiblioStream
+# BiblioStream
 
 BiblioStream is an application utilizing a relational database focused on providing users with the ability to check the availability of shows/movies on various streaming platforms using a number of other parameters such as actors, language, country, etc.
 
@@ -41,7 +41,7 @@ _Note: Please provide filepath to the dbconfig.yaml containing credentials to co
 
 ## Acknowledgements
 
-This project is conceived and created for CPSC 304 by:
+This project is conceived and created by:
 
 - Anam Hira
 - Keshav Gupta
